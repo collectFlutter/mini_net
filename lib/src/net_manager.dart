@@ -2,12 +2,12 @@ import 'package:dio/dio.dart';
 import 'package:mini_net/src/response_model.dart';
 
 class NetManager {
-  static NetManager _instance;
-  Dio _dio;
+  static NetManager? _instance;
+  Dio? _dio;
 
   NetManager._();
 
-  static NetManager internal({
+  static NetManager? internal({
     String contentType = Headers.jsonContentType,
     String baseUrl = '',
     Map<String, String> headers = const {},
@@ -15,16 +15,17 @@ class NetManager {
     int receiveTimeout = 600000,
     int sendTimeout = 3000,
     ResponseType responseType = ResponseType.json,
-    List<Interceptor> interceptors,
+    List<Interceptor>? interceptors,
   }) {
     bool flag = _instance == null ||
-        _instance._dio == null ||
-        (_instance._dio.options?.contentType != contentType) ||
-        (_instance._dio.options?.baseUrl != baseUrl) ||
-        (_instance._dio.options?.connectTimeout != connectTimeout) ||
-        (_instance._dio.options?.sendTimeout != sendTimeout) ||
-        (_instance._dio.options?.receiveTimeout != receiveTimeout) ||
-        (_instance._dio.options?.headers?.toString() != headers?.toString());
+        _instance!._dio == null ||
+        _instance!._dio?.options == null ||
+        (_instance!._dio!.options.contentType != contentType) ||
+        (_instance!._dio!.options.baseUrl != baseUrl) ||
+        (_instance!._dio!.options.connectTimeout != connectTimeout) ||
+        (_instance!._dio!.options.sendTimeout != sendTimeout) ||
+        (_instance!._dio!.options.receiveTimeout != receiveTimeout) ||
+        (_instance!._dio!.options.headers.toString() != headers.toString());
     if (flag) {
       BaseOptions options = BaseOptions(
         baseUrl: baseUrl,
@@ -36,25 +37,24 @@ class NetManager {
         responseType: responseType,
       );
       _instance = NetManager._();
-      _instance._dio = Dio(options);
-      _instance._dio.interceptors.addAll(interceptors ?? []);
+      _instance!._dio = Dio(options);
+      _instance!._dio!.interceptors.addAll(interceptors ?? []);
     }
     return _instance;
   }
 
-
   Future<ResponseModel> get(
     String path, {
-    Map<String, dynamic> body,
-    CancelToken cancelToken,
-    Map<String, dynamic> extra,
+    Map<String, dynamic>? body,
+    CancelToken? cancelToken,
+    Map<String, dynamic> extra = const {},
   }) async {
-    _dio.options
+    _dio!.options
       ..extra.clear()
       ..extra = extra;
     ResponseModel responseModel;
     try {
-      Response response = await _dio.get(
+      Response response = await _dio!.get(
         path,
         queryParameters: body,
         cancelToken: cancelToken,
@@ -75,16 +75,16 @@ class NetManager {
 
   Future<ResponseModel> post(
     String path, {
-    Map<String, dynamic> body,
-    CancelToken cancelToken,
-    Map<String, dynamic> extra,
+    Map<String, dynamic>? body,
+    CancelToken? cancelToken,
+    Map<String, dynamic> extra = const {},
   }) async {
-    _dio.options
+    _dio!.options
       ..extra.clear()
       ..extra = extra;
     ResponseModel responseModel;
     try {
-      Response response = await _dio.post(
+      Response response = await _dio!.post(
         path,
         data: body,
         cancelToken: cancelToken,
