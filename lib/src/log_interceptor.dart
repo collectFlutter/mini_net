@@ -20,17 +20,14 @@ class MiniLogInterceptor extends Interceptor {
     this.extra = options.extra;
     _startTime = DateTime.now();
     _log.write("${'=' * 20}     ${options.method}     ${'=' * 20}\n");
-    _log
-      ..write('- URL: ')
-      ..write(options.baseUrl)
-      ..write(options.path);
+    _log..write('- URL: ')..write(options.baseUrl)..write(options.path);
     if ((options.queryParameters?.length ?? 0) > 0) {
       StringBuffer _parameters = StringBuffer();
       options.queryParameters.forEach((key, value) {
         _parameters..write('&')..write(key)..write('=')..write(value);
       });
       _log..write('?')..write(_parameters.toString().substring(1))..write('\n');
-    }else{
+    } else {
       _log..write('\n');
     }
     _log..write('- METHOD: ')..write(options.method)..write('\n');

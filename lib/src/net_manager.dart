@@ -42,7 +42,6 @@ class NetManager {
     return _instance;
   }
 
-
   Future<ResponseModel> get(
     String path, {
     Map<String, dynamic> body,
