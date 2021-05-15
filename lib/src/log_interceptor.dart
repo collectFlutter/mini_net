@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 void _printLog(Object object, Map<String, dynamic> extra) => print(object);
 
 class MiniLogInterceptor extends Interceptor {
-  DateTime _startTime;
+  DateTime? _startTime;
   StringBuffer _log = StringBuffer();
   Map<String, dynamic> extra;
 
@@ -13,6 +13,7 @@ class MiniLogInterceptor extends Interceptor {
   MiniLogInterceptor({
     this.printResponse = _printLog,
     this.printError = _printLog,
+    this.extra = const {},
   });
 
   @override
@@ -21,7 +22,7 @@ class MiniLogInterceptor extends Interceptor {
     _startTime = DateTime.now();
     _log.write("${'=' * 20}     ${options.method}     ${'=' * 20}\n");
     _log..write('- URL: ')..write(options.baseUrl)..write(options.path);
-    if ((options.queryParameters?.length ?? 0) > 0) {
+    if (options.queryParameters.length > 0) {
       StringBuffer _parameters = StringBuffer();
       options.queryParameters.forEach((key, value) {
         _parameters..write('&')..write(key)..write('=')..write(value);
@@ -53,7 +54,7 @@ class MiniLogInterceptor extends Interceptor {
 
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
-    int duration = DateTime.now().difference(_startTime).inMilliseconds;
+    int duration = DateTime.now().difference(_startTime!).inMilliseconds;
     _log
       ..write(
           '${'✖' * 20}     请求错误: ${(duration / 1000).toStringAsFixed(4)} 秒    ${'✖' * 20}\n');
@@ -64,7 +65,7 @@ class MiniLogInterceptor extends Interceptor {
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    int duration = DateTime.now().difference(_startTime).inMilliseconds;
+    int duration = DateTime.now().difference(_startTime!).inMilliseconds;
     _log
       ..write(
           "${'=' * 20}   请求成功：${(duration / 1000).toStringAsFixed(4)} 秒    ${'=' * 20}\n");
