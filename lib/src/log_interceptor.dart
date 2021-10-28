@@ -2,12 +2,16 @@ import 'package:dio/dio.dart';
 
 void _printLog(Object object, Map<String, dynamic> extra) => print(object);
 
+
+
 class MiniLogInterceptor extends Interceptor {
   DateTime? _startTime;
   StringBuffer _log = StringBuffer();
   Map<String, dynamic> extra;
 
+  /// 打印错误信息
   void Function(Object object, Map<String, dynamic> extra) printError;
+  /// 打印请求及反馈信息
   void Function(Object object, Map<String, dynamic> extra) printResponse;
 
   MiniLogInterceptor({

@@ -7,7 +7,7 @@ class NetManager {
 
   NetManager._();
 
-  static NetManager? internal({
+  static NetManager internal({
     String contentType = Headers.jsonContentType,
     String baseUrl = '',
     Map<String, String> headers = const {},
@@ -40,66 +40,145 @@ class NetManager {
       _instance!._dio = Dio(options);
       _instance!._dio!.interceptors.addAll(interceptors ?? []);
     }
-    return _instance;
+    return _instance!;
   }
 
+  Dio get dio => _dio!;
+
+  /// get请求
+  /// [path] 请求路径
+  /// [body] 请求数据
+  /// [extra] 自定义参数，可用于拦截器
   Future<ResponseModel> get(
     String path, {
     Map<String, dynamic>? body,
     CancelToken? cancelToken,
     Map<String, dynamic> extra = const {},
   }) async {
-    _dio!.options
-      ..extra.clear()
-      ..extra = extra;
+    dio.options..extra = extra;
     ResponseModel responseModel;
     try {
-      Response response = await _dio!.get(
+      Response response = await dio.get(
         path,
         queryParameters: body,
         cancelToken: cancelToken,
       );
-      responseModel = ResponseModel(
-        response.statusCode == 200,
-        response,
-        DioErrorType.response,
-      );
+      responseModel = ResponseModel.success(response);
     } on DioError catch (error) {
-      responseModel = ResponseModel(false, null, error.type);
+      responseModel = ResponseModel.fail(error.type);
     } on Exception {
-      responseModel = ResponseModel(false, null, DioErrorType.other);
+      responseModel = ResponseModel.fail();
     }
 
     return responseModel;
   }
 
+  /// post请求
+  /// [path] 请求路径
+  /// [body] 请求数据
+  /// [extra] 自定义参数，可用于拦截器
   Future<ResponseModel> post(
     String path, {
     Map<String, dynamic>? body,
     CancelToken? cancelToken,
     Map<String, dynamic> extra = const {},
   }) async {
-    _dio!.options
-      ..extra.clear()
-      ..extra = extra;
+    dio.options..extra = extra;
     ResponseModel responseModel;
     try {
-      Response response = await _dio!.post(
+      Response response = await dio.post(
         path,
         data: body,
         cancelToken: cancelToken,
       );
-      responseModel = ResponseModel(
-        response.statusCode == 200,
-        response,
-        DioErrorType.response,
-      );
+      responseModel = ResponseModel.success(response);
     } on DioError catch (error) {
-      responseModel = ResponseModel(false, null, error.type);
+      responseModel = ResponseModel.fail(error.type);
     } on Exception {
-      responseModel = ResponseModel(false, null, DioErrorType.other);
+      responseModel = ResponseModel.fail();
     }
 
+    return responseModel;
+  }
+
+  /// put请求
+  /// [path] 请求路径
+  /// [body] 请求数据
+  /// [extra] 自定义参数，可用于拦截器
+  Future<ResponseModel> put(
+    String path, {
+    Map<String, dynamic>? body,
+    CancelToken? cancelToken,
+    Map<String, dynamic> extra = const {},
+  }) async {
+    _dio!.options..extra = extra;
+    ResponseModel responseModel;
+    try {
+      Response response = await dio.put(
+        path,
+        data: body,
+        cancelToken: cancelToken,
+      );
+      responseModel = ResponseModel.success(response);
+    } on DioError catch (error) {
+      responseModel = ResponseModel.fail(error.type);
+    } on Exception {
+      responseModel = ResponseModel.fail();
+    }
+    return responseModel;
+  }
+
+  /// delete请求
+  /// [path] 请求路径
+  /// [body] 请求数据
+  /// [extra] 自定义参数，可用于拦截器
+  Future<ResponseModel> delete(
+      String path, {
+        Map<String, dynamic>? body,
+        CancelToken? cancelToken,
+        Map<String, dynamic> extra = const {},
+      }) async {
+    _dio!.options..extra = extra;
+    ResponseModel responseModel;
+    try {
+      Response response = await dio.delete(
+        path,
+        data: body,
+        cancelToken: cancelToken,
+      );
+      responseModel = ResponseModel.success(response);
+    } on DioError catch (error) {
+      responseModel = ResponseModel.fail(error.type);
+    } on Exception {
+      responseModel = ResponseModel.fail();
+    }
+    return responseModel;
+  }
+
+  /// head请求
+  /// [path] 请求路径
+  /// [body] 请求数据
+  /// [extra] 自定义参数，可用于拦截器
+  Future<ResponseModel> head(
+      String path, {
+        Map<String, dynamic>? body,
+        CancelToken? cancelToken,
+        Map<String, dynamic> extra = const {},
+      }) async {
+    _dio!.options..extra = extra;
+    ResponseModel responseModel;
+    try {
+      Response response = await dio.head(
+        path,
+        data: body,
+        cancelToken: cancelToken,
+      );
+      responseModel = ResponseModel.success(response);
+    } on DioError catch (error) {
+      responseModel = ResponseModel.fail(error.type);
+    } on Exception {
+      responseModel = ResponseModel.fail();
+    }
     return responseModel;
   }
 }
