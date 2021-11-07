@@ -10,7 +10,7 @@ class NetManager {
   static NetManager internal({
     String contentType = Headers.jsonContentType,
     String baseUrl = '',
-    Map<String, String> headers = const {},
+    Map<String, dynamic> headers = const {},
     int connectTimeout = 3000,
     int receiveTimeout = 600000,
     int sendTimeout = 3000,
