@@ -2,8 +2,6 @@ import 'package:dio/dio.dart';
 
 void _printLog(Object object, Map<String, dynamic> extra) => print(object);
 
-
-
 class MiniLogInterceptor extends Interceptor {
   DateTime? _startTime;
   StringBuffer _log = StringBuffer();
@@ -11,6 +9,7 @@ class MiniLogInterceptor extends Interceptor {
 
   /// 打印错误信息
   void Function(Object object, Map<String, dynamic> extra) printError;
+
   /// 打印请求及反馈信息
   void Function(Object object, Map<String, dynamic> extra) printResponse;
 
@@ -25,17 +24,30 @@ class MiniLogInterceptor extends Interceptor {
     this.extra = options.extra;
     _startTime = DateTime.now();
     _log.write("${'=' * 20}     ${options.method}     ${'=' * 20}\n");
-    _log..write('- URL: ')..write(options.baseUrl)..write(options.path);
+    _log
+      ..write('- URL: ')
+      ..write(options.baseUrl)
+      ..write(options.path);
     if (options.queryParameters.length > 0) {
       StringBuffer _parameters = StringBuffer();
       options.queryParameters.forEach((key, value) {
-        _parameters..write('&')..write(key)..write('=')..write(value);
+        _parameters
+          ..write('&')
+          ..write(key)
+          ..write('=')
+          ..write(value);
       });
-      _log..write('?')..write(_parameters.toString().substring(1))..write('\n');
+      _log
+        ..write('?')
+        ..write(_parameters.toString().substring(1))
+        ..write('\n');
     } else {
       _log..write('\n');
     }
-    _log..write('- METHOD: ')..write(options.method)..write('\n');
+    _log
+      ..write('- METHOD: ')
+      ..write(options.method)
+      ..write('\n');
     _log
       ..write('- HEADER: \n')
       ..write(options.headers.mapToStructureString())
@@ -45,12 +57,20 @@ class MiniLogInterceptor extends Interceptor {
     if (data != null) {
       _log.write('- BODY: \n');
       if (data is Map) {
-        _log..write(data.mapToStructureString())..write('\n');
+        _log
+          ..write(data.mapToStructureString())
+          ..write('\n');
       } else if (data is FormData) {
-        var fields = Map()..addEntries(data.files)..addEntries(data.fields);
-        _log..write(fields.mapToStructureString())..write('\n');
+        var fields = Map()
+          ..addEntries(data.files)
+          ..addEntries(data.fields);
+        _log
+          ..write(fields.mapToStructureString())
+          ..write('\n');
       } else {
-        _log..write(data.toString())..write('\n');
+        _log
+          ..write(data.toString())
+          ..write('\n');
       }
     }
     handler.next(options);

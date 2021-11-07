@@ -15,31 +15,24 @@ class NetManager {
     int receiveTimeout = 600000,
     int sendTimeout = 3000,
     ResponseType responseType = ResponseType.json,
-    List<Interceptor>? interceptors,
+    List<Interceptor> interceptors = const [],
   }) {
     bool flag = _instance == null ||
         _instance!._dio == null ||
-        _instance!._dio?.options == null ||
-        (_instance!._dio!.options.contentType != contentType) ||
-        (_instance!._dio!.options.baseUrl != baseUrl) ||
-        (_instance!._dio!.options.connectTimeout != connectTimeout) ||
-        (_instance!._dio!.options.sendTimeout != sendTimeout) ||
-        (_instance!._dio!.options.receiveTimeout != receiveTimeout) ||
-        (_instance!._dio!.options.headers.toString() != headers.toString());
+        _instance!._dio?.options == null;
     if (flag) {
-      BaseOptions options = BaseOptions(
-        baseUrl: baseUrl,
-        contentType: contentType,
-        headers: headers,
-        connectTimeout: connectTimeout,
-        receiveTimeout: receiveTimeout,
-        sendTimeout: sendTimeout,
-        responseType: responseType,
-      );
       _instance = NetManager._();
-      _instance!._dio = Dio(options);
-      _instance!._dio!.interceptors.addAll(interceptors ?? []);
+      _instance!._dio = Dio(BaseOptions());
     }
+    _instance!._dio!.options.responseType = responseType;
+    _instance!._dio!.options.contentType = contentType;
+    _instance!._dio!.options.connectTimeout = connectTimeout;
+    _instance!._dio!.options.sendTimeout = sendTimeout;
+    _instance!._dio!.options.receiveTimeout = receiveTimeout;
+    _instance!._dio!.options.headers = headers;
+    _instance!._dio!.interceptors
+      ..clear()
+      ..addAll(interceptors);
     return _instance!;
   }
 
@@ -133,11 +126,11 @@ class NetManager {
   /// [body] 请求数据
   /// [extra] 自定义参数，可用于拦截器
   Future<ResponseModel> delete(
-      String path, {
-        Map<String, dynamic>? body,
-        CancelToken? cancelToken,
-        Map<String, dynamic> extra = const {},
-      }) async {
+    String path, {
+    Map<String, dynamic>? body,
+    CancelToken? cancelToken,
+    Map<String, dynamic> extra = const {},
+  }) async {
     _dio!.options..extra = extra;
     ResponseModel responseModel;
     try {
@@ -160,11 +153,11 @@ class NetManager {
   /// [body] 请求数据
   /// [extra] 自定义参数，可用于拦截器
   Future<ResponseModel> head(
-      String path, {
-        Map<String, dynamic>? body,
-        CancelToken? cancelToken,
-        Map<String, dynamic> extra = const {},
-      }) async {
+    String path, {
+    Map<String, dynamic>? body,
+    CancelToken? cancelToken,
+    Map<String, dynamic> extra = const {},
+  }) async {
     _dio!.options..extra = extra;
     ResponseModel responseModel;
     try {
