@@ -1,3 +1,7 @@
+## 0.3.2
+
+update `NetManager.internal()`
+
 ## 0.3.1
 
 update `NetManager.internal()`

@@ -5,6 +5,8 @@ class NetManager {
   static NetManager? _instance;
   Dio? _dio;
 
+  Dio get dio => _dio!;
+
   NetManager._();
 
   static NetManager internal({
@@ -24,6 +26,7 @@ class NetManager {
       _instance = NetManager._();
       _instance!._dio = Dio(BaseOptions());
     }
+    _instance!._dio!.options.baseUrl = baseUrl;
     _instance!._dio!.options.responseType = responseType;
     _instance!._dio!.options.contentType = contentType;
     _instance!._dio!.options.connectTimeout = connectTimeout;
@@ -35,8 +38,6 @@ class NetManager {
       ..addAll(interceptors);
     return _instance!;
   }
-
-  Dio get dio => _dio!;
 
   /// get请求
   /// [path] 请求路径
