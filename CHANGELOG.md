@@ -1,3 +1,7 @@
+## 0.3.3
+
+add `NetManager.postFile()`
+
 ## 0.3.2
 
 update `NetManager.internal()`

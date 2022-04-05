@@ -3,9 +3,6 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:mini_net/mini_net.dart';
 
-import 'package:mini_net/src/log_interceptor.dart';
-import 'package:mini_net/src/net_manager.dart';
-
 void main() {
   test('net_manager', () async {
     void printLog(Object object, Map<String, dynamic> extra) {
@@ -18,13 +15,13 @@ void main() {
       baseUrl: 'http://xxxx',
       contentType: Headers.formUrlEncodedContentType,
     );
-    var response = await manager?.post(
+    var response = await manager.post(
       '/auth/account',
       body: {'AccountNo': '27017', 'Password': '123456'},
       extra: {"tag": 'login'},
     );
 
-    var token = response?.response?.data['data'];
+    var token = response.response?.data['data'];
 
     manager = NetManager.internal(
         interceptors: [MiniLogInterceptor(printResponse: printLog)],
@@ -32,7 +29,7 @@ void main() {
         contentType: Headers.formUrlEncodedContentType,
         headers: {'Authorization': 'Bearer $token'});
 
-    await manager?.get(
+    await manager.get(
       '/api/suggestion/suggestion/bugQuestions',
       body: {'pageIndex': 1, 'pageSize': 20},
       extra: {'tag': 'question'},

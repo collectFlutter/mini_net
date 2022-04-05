@@ -1,6 +1,6 @@
 name: mini_net
 description: A network request package widget,With log interceptor.
-version: 0.3.2
+version: 0.3.3
 homepage: https://github.com/collectFlutter/mini_net
 
 environment:

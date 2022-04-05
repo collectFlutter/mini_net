@@ -95,6 +95,34 @@ class NetManager {
     return responseModel;
   }
 
+  /// post-file 上传文件
+  /// [path] 请求路径
+  /// [data] 请求数据
+  /// [extra] 自定义参数，可用于拦截器
+  Future<ResponseModel> postFile(
+    String path,
+    MultipartFile data, {
+    CancelToken? cancelToken,
+    Map<String, dynamic> extra = const {},
+  }) async {
+    dio.options..extra = extra;
+    ResponseModel responseModel;
+    try {
+      Response response = await dio.post(
+        path,
+        data: data,
+        cancelToken: cancelToken,
+      );
+      responseModel = ResponseModel.success(response);
+    } on DioError catch (error) {
+      responseModel = ResponseModel.fail(error.type);
+    } on Exception {
+      responseModel = ResponseModel.fail();
+    }
+
+    return responseModel;
+  }
+
   /// put请求
   /// [path] 请求路径
   /// [body] 请求数据
