@@ -110,7 +110,7 @@ class NetManager {
     try {
       Response response = await dio.post(
         path,
-        data: data,
+        data: FormData.fromMap({'file': data}),
         cancelToken: cancelToken,
       );
       responseModel = ResponseModel.success(response);
