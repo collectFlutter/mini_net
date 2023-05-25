@@ -13,11 +13,11 @@ class ResponseModel {
 
   DioErrorType get type => _type;
 
-  factory ResponseModel.success(Response _response) {
-    return ResponseModel._(true, _response, DioErrorType.response);
+  factory ResponseModel.success(Response response) {
+    return ResponseModel._(true, response, DioErrorType.badResponse);
   }
 
-  factory ResponseModel.fail([DioErrorType type = DioErrorType.other]) {
+  factory ResponseModel.fail([DioErrorType type = DioErrorType.unknown]) {
     return ResponseModel._(false, null, type);
   }
 

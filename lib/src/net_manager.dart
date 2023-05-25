@@ -13,9 +13,9 @@ class NetManager {
     String contentType = Headers.jsonContentType,
     String baseUrl = '',
     Map<String, dynamic> headers = const {},
-    int connectTimeout = 3000,
-    int receiveTimeout = 600000,
-    int sendTimeout = 3000,
+    Duration connectTimeout = const Duration(seconds: 3),
+    Duration receiveTimeout = const Duration(minutes: 10),
+    Duration sendTimeout = const Duration(seconds: 3),
     ResponseType responseType = ResponseType.json,
     List<Interceptor> interceptors = const [],
   }) {
@@ -49,7 +49,7 @@ class NetManager {
     CancelToken? cancelToken,
     Map<String, dynamic> extra = const {},
   }) async {
-    dio.options..extra = extra;
+    dio.options.extra = extra;
     ResponseModel responseModel;
     try {
       Response response = await dio.get(
@@ -77,7 +77,7 @@ class NetManager {
     CancelToken? cancelToken,
     Map<String, dynamic> extra = const {},
   }) async {
-    dio.options..extra = extra;
+    dio.options.extra = extra;
     ResponseModel responseModel;
     try {
       Response response = await dio.post(
@@ -105,7 +105,7 @@ class NetManager {
     CancelToken? cancelToken,
     Map<String, dynamic> extra = const {},
   }) async {
-    dio.options..extra = extra;
+    dio.options.extra = extra;
     ResponseModel responseModel;
     try {
       Response response = await dio.post(
@@ -133,7 +133,7 @@ class NetManager {
     CancelToken? cancelToken,
     Map<String, dynamic> extra = const {},
   }) async {
-    _dio!.options..extra = extra;
+    _dio!.options.extra = extra;
     ResponseModel responseModel;
     try {
       Response response = await dio.put(
@@ -160,7 +160,7 @@ class NetManager {
     CancelToken? cancelToken,
     Map<String, dynamic> extra = const {},
   }) async {
-    _dio!.options..extra = extra;
+    _dio!.options.extra = extra;
     ResponseModel responseModel;
     try {
       Response response = await dio.delete(
@@ -187,7 +187,7 @@ class NetManager {
     CancelToken? cancelToken,
     Map<String, dynamic> extra = const {},
   }) async {
-    _dio!.options..extra = extra;
+    _dio!.options.extra = extra;
     ResponseModel responseModel;
     try {
       Response response = await dio.head(

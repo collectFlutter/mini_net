@@ -1,3 +1,7 @@
+## 0.3.5
+
+update dio
+
 ## 0.3.4
 
 update `NetManager.postFile()`
