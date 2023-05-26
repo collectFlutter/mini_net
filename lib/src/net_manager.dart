@@ -74,6 +74,7 @@ class NetManager {
   Future<ResponseModel> post(
     String path, {
     Map<String, dynamic>? body,
+    List? list,
     CancelToken? cancelToken,
     Map<String, dynamic> extra = const {},
   }) async {
@@ -82,7 +83,7 @@ class NetManager {
     try {
       Response response = await dio.post(
         path,
-        data: body,
+        data: body ?? list,
         cancelToken: cancelToken,
       );
       responseModel = ResponseModel.success(response);
